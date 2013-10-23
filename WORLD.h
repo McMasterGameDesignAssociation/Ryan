@@ -220,15 +220,17 @@ private:
 	unsigned int position[2];
 	string bitMapName;
 	string description;
+	int speed;
 
 	unsigned int suspicion;
 	unsigned int fame;
 	unsigned int bagType;
-	double speed;
+	//double speed;
 	enum powerUp {none, dash, stealth};
 
 public:
 	player(world map);
+	int getSpeed(void);
 	unsigned int getPositionX(void);
 	unsigned int getPositionY(void);
 	string getBitMap(void);
@@ -237,6 +239,7 @@ public:
 	void changePosition(unsigned int pos[2]);
 	void changeBitMap(string newBitMap);
 	void checkMovement(world map, int x, int y);
+	void setSpeed(int movement);
 
 	/** Methods to add **
 	* special items (night vision goggles)
@@ -247,7 +250,7 @@ public:
 	//accessors
 	unsigned int getSuspicion(void);
 	unsigned int getFame(void);
-	double getSpeed(void);
+	//double getSpeed(void);
 
 	//mutators
 	void increaseSuspicion(unsigned int increaseSuspicionAmount);

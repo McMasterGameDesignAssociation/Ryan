@@ -156,13 +156,16 @@ player::player(world map)
 	position[0] = temp[0]*64, position[1] = temp[1]*64;
 	bitMapName = "None";
 	description = "This is an empty player";
+	speed = 0;
 }
 
 unsigned int player::getPositionX(void) {return position[0];}
 unsigned int player::getPositionY(void) {return position[1];}
+int player::getSpeed(void) {return speed;}
 
 string player::getBitMap(void) {return bitMapName;}
 string player::getDescription(void) {return description;}
+void player::setSpeed(int movement) {speed = movement;}
 void player::changeDescription(string newDescription) {description = newDescription;}
 void player::changePosition(unsigned int pos[2]) {position[0] = pos[0], position[1] = pos[1];}
 void player::changeBitMap(string newBitMap) {bitMapName = newBitMap;}
@@ -177,7 +180,7 @@ void player::increaseFame(unsigned int increaseFameAmount) {fame += increaseFame
 void player::decreaseFame(unsigned int decreaseFameAmount) {fame -= decreaseFameAmount;}
 void player::updateFame(unsigned int newFame) {fame = newFame;}
 
-double player::getSpeed(void){return speed;}
+//double player::getSpeed(void){return speed;}
 void player::increaseSpeed(double increaseSpeedAmount) {speed += increaseSpeedAmount;}
 void player::decreaseSpeed(double decreaseSpeedAmount) {speed -= decreaseSpeedAmount;}
 void player::updateSpeed(double newSpeed) {speed = newSpeed;}
@@ -202,16 +205,25 @@ void player::checkMovement(world map, int x, int y)
 	unsigned int posTwo[2];
 	unsigned int posThree[2];
 	unsigned int posFour[2];
+	int speed  = getSpeed();
+
+	x = (x >= 1) ? speed : x;
+	x = (x <= -1) ? -speed : x;
+	y = (y >= 1) ? speed : y;
+	y = (y <= -1) ? -speed : y;
+	
+	speed = 64 - speed;
+
 
 	//This is a check of the lower bound of movement
 	posOne[0] = (x + getPositionX())/64, posOne[1] = (y + getPositionY())/64;
 	//This is a check of the upper bound of movement
-	posTwo[0] = (x + 56 + getPositionX())/64, posTwo[1] = (y + 56 + getPositionY())/64;
+	posTwo[0] = (x + speed + getPositionX())/64, posTwo[1] = (y + speed + getPositionY())/64;
 
 	//This is a check of the lower bound of movement
-	posThree[0] = (x + getPositionX())/64, posThree[1] = (y + 56 + getPositionY())/64;
+	posThree[0] = (x + getPositionX())/64, posThree[1] = (y + speed + getPositionY())/64;
 	//This is a check of the upper bound of movement
-	posFour[0] = (x + 56 + getPositionX())/64, posFour[1] = (y + getPositionY())/64;
+	posFour[0] = (x + speed + getPositionX())/64, posFour[1] = (y + getPositionY())/64;
 
 	cout << "pos one: " << posOne[0] << " " << posOne[1] << endl;
 	cout << "pos two: " << posTwo[0] << " " << posTwo[1] << endl;

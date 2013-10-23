@@ -2,12 +2,12 @@
 #include "WORLD.h"
 #include "NPCHandler.h"
 
-actor::actor(unsigned int x, unsigned int y, double speed)
+actor::actor(unsigned int x, unsigned int y, double speed, int newID)
 {
 	this->vPosition.x = x;
 	this->vPosition.y = y;
 	this->speed = speed;
-	this->ID = 0;
+	this->ID = newID;
 	this->face = up;
 	this->bitMapName = "None";
 	this->description = "This is an empty character";

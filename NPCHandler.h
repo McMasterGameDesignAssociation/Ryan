@@ -34,7 +34,7 @@ class actor
 	public:
 
 		//Modifiers
-		actor(unsigned int x, unsigned int y, double speed);
+		actor(unsigned int x, unsigned int y, double speed, int newID);
 		actor(void);
 		void setActor(direction newFace, string newBitMapName, string newDescription);
 		void moveto(unsigned int x, unsigned int y);
