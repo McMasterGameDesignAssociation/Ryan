@@ -66,7 +66,10 @@ void actor::changeDirection(string newFace)
 	}
 }
 
-
+/* checkMovement
+* this function checks to make sure there is no block preventing movement
+* same as the function for the player 
+*/
 
 void actor::checkMovement(world map, int x, int y)
 {
@@ -105,27 +108,27 @@ void actor::checkMovement(world map, int x, int y)
 	}
 }
 
-void actor::updateMovement()
+void actor::updateMovement(world map)
 {
 	if (this->getMoving() == true)
 	{
-		if(frameCounter > 20){
+		if(frameCounter > 10){
 			cout << this->face;
 			if (face == up){
-				vPosition.y += speed;
-				//checkMovement(map, 0, 1);
+				//vPosition.y += speed;
+				checkMovement(map, 0, 1);
 			} 
 			if (face == right){
-				vPosition.x += speed;
-				//checkMovement(map, 1, 0);
+				//vPosition.x += speed;
+				checkMovement(map, 1, 0);
 			}
 			if (face == left) {
-				vPosition.x -= speed;
-				//checkMovement(map, -1, 0);
+				//vPosition.x -= speed;
+				checkMovement(map, -1, 0);
 			}
 			if (face == down) {
-				vPosition.y -= speed;
-				//checkMovement(map, 0, -1);
+				//vPosition.y -= speed;
+				checkMovement(map, 0, -1);
 			}
 
 			frameCounter = 0;

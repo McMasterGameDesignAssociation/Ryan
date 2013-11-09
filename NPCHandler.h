@@ -62,8 +62,8 @@ class actor
 		void printLog(void);
 
 		//Update Function
-		void updateMovement();
-		//
+		void updateMovement(world map);
+		//moveToPlayer, currently unused
 		void moveToPlayer();
 
 };

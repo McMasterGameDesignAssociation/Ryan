@@ -231,18 +231,16 @@ void display(void)
 	glColor3f(0,1,0);
 	glVertex2i(nathan.getPositionX(), nathan.getPositionY());
 
-	/* (+) Drawing the NPCs */
-	
+	/* (+) Drawing the NPCs 
+	* this will draw the NPC's and make them chase the player
+	*/
 
 	glColor3f(0,0,1); // set colour to blue 
 	
-	for(int i = 0; i < 1; i++){
-		glVertex2i(newActor.getPosition().x + (64*i),newActor.getPosition().y + (64*i)); 
+	glVertex2i(newActor.getPosition().x ,newActor.getPosition().y); 
 		
-	}
 	newActor.setSpeed(2);
-	//newActor.checkMovement(DAN,0,1); //this will move it up and it will collide
-	newActor.updateMovement();
+	newActor.updateMovement(DAN);
 	
 	if((newActor.getPosition().x != nathan.getPositionX()) || (newActor.getPosition().y != nathan.getPositionY()))
 	{
@@ -252,7 +250,6 @@ void display(void)
 			if (newActor.getPosition().x < nathan.getPositionX())
 			{
 				newActor.changeDirection("right");
-				//newActor.checkMovement(DAN, 
 			} 
 			else if (newActor.getPosition().x > nathan.getPositionX())
 			{
