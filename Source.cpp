@@ -4,6 +4,7 @@
 #include <GL\freeglut.h>
 #include <GL\GL.h>
 #include <iostream>
+#include <cmath>
 #include "WORLD.h"
 
 /****
@@ -19,7 +20,7 @@
 
 ***/
 bool keys[8];
-
+int MoveState = 0;
 /*
 This will be the clear keys function
 */
@@ -181,6 +182,10 @@ unsigned int initSize[2] = {1,1};
 world DAN(initSize);
 player nathan(DAN);
 
+actor newActor(64*6, 64*9, 10, 1); //initialize an NPC
+
+
+
 void calculateViewPort(player character)
 {
 	viewPortCenter[0] = character.getPositionX() - WIDTH/2;
@@ -222,13 +227,59 @@ void display(void)
 	glColor3f(1,1,1);
 	glPointSize(64);
 	glBegin(GL_POINTS);
-	actor meow(20,20,2,0);//x, y, speed, id
-	DAN.addActor(meow);
 	unsigned int pos[2];
 	glColor3f(0,1,0);
 	glVertex2i(nathan.getPositionX(), nathan.getPositionY());
-	glColor3f(1,0,1);
-	glVertex2i(DAN.getCharacter(0).getPosition().x * 64, DAN.getCharacter(0).getPosition().y * 64);
+
+	/* (+) Drawing the NPCs */
+	
+
+	glColor3f(0,0,1); // set colour to blue 
+	
+	for(int i = 0; i < 1; i++){
+		glVertex2i(newActor.getPosition().x + (64*i),newActor.getPosition().y + (64*i)); 
+		
+	}
+	newActor.setSpeed(2);
+	//newActor.checkMovement(DAN,0,1); //this will move it up and it will collide
+	newActor.updateMovement();
+	
+	if((newActor.getPosition().x != nathan.getPositionX()) || (newActor.getPosition().y != nathan.getPositionY()))
+	{
+		newActor.setMoving(true);
+		if(MoveState == 0)
+		{
+			if (newActor.getPosition().x < nathan.getPositionX())
+			{
+				newActor.changeDirection("right");
+				//newActor.checkMovement(DAN, 
+			} 
+			else if (newActor.getPosition().x > nathan.getPositionX())
+			{
+				newActor.changeDirection("left");
+			}
+			MoveState = 1;
+		}
+		else
+		{
+			if (newActor.getPosition().y < nathan.getPositionY())
+			{
+				newActor.changeDirection("up");
+			} 
+			if (newActor.getPosition().y > nathan.getPositionY())
+			{
+				newActor.changeDirection("down");
+			}
+			MoveState = 0;
+		}
+	}
+	else 
+	{
+		newActor.setMoving(false);
+	}
+	
+	/* (-) Drawing the NPCs */
+
 	for(int i = 0; i < DAN.getY(); i++)
 	{
 		pos[1] = i;

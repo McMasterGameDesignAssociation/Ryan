@@ -142,7 +142,7 @@ void actor::printLog(void)
 
 //This function should be private
 void actor::changeID(unsigned int newID) {ID = newID;}
-void actor::changeDirection(direction newFace) {face = newFace;}
+//void actor::changeDirection(direction newFace) {face = newFace;}//this is a duplicate definition. defined in NPCHandler
 void actor::changeBitMapName(string newbitMapName) {bitMapName = newbitMapName;}
 string actor::getDescription(void) {return description;}
 int actor::getID(void) {return ID;}
@@ -225,10 +225,10 @@ void player::checkMovement(world map, int x, int y)
 	//This is a check of the upper bound of movement
 	posFour[0] = (x + speed + getPositionX())/64, posFour[1] = (y + getPositionY())/64;
 
-	cout << "pos one: " << posOne[0] << " " << posOne[1] << endl;
+	/*cout << "pos one: " << posOne[0] << " " << posOne[1] << endl;
 	cout << "pos two: " << posTwo[0] << " " << posTwo[1] << endl;
 	cout << "pos three: " << posThree[0] << " " << posThree[1] << endl;
-	cout << "pos four: " << posFour[0] << " " << posFour[1] << endl << endl;
+	cout << "pos four: " << posFour[0] << " " << posFour[1] << endl << endl;*/
 	if(map.checkTileMap(posOne) && map.checkTileMap(posTwo) && map.checkTileMap(posThree) && map.checkTileMap(posFour)) 
 	{
 		posOne[0] = x + getPositionX(), posOne[1] = y + getPositionY();

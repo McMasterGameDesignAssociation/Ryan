@@ -6,6 +6,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+class world; 
 
 using namespace std;
 
@@ -30,6 +31,8 @@ class actor
 		ActorVector vPosition;
 		double speed;
 		bool isMovingToSpot;
+		//new
+		unsigned int frameCounter;
 
 	public:
 
@@ -39,7 +42,7 @@ class actor
 		void setActor(direction newFace, string newBitMapName, string newDescription);
 		void moveto(unsigned int x, unsigned int y);
 		void changeID(unsigned int newID);
-		void changeDirection(direction newFace);
+		void changeDirection(string newFace);//
 		void changeBitMapName(string newbitMapName);
 		void setPosition(unsigned int x, unsigned int y);
 		void setSpeed(double newSpeed);
@@ -53,12 +56,15 @@ class actor
 		double getSpeed();
 		ActorVector getPosition();
 		bool getMoving();
+		void checkMovement(world map, int x, int y);
 
 		//Logging function
 		void printLog(void);
 
 		//Update Function
 		void updateMovement();
+		//
+		void moveToPlayer();
 
 };
 
