@@ -182,7 +182,15 @@ unsigned int initSize[2] = {1,1};
 world DAN(initSize);
 player nathan(DAN);
 
-actor newActor(64*6, 64*9, 10, 1); //initialize an NPC
+
+/*
+(+) NPC varibles
+*/
+vector <actor> actorVector;
+int detectionRange = 64 * 8;
+int frameCounter = 0;
+int randomNumNPC;
+//(-) NPC variables
 
 
 
@@ -234,47 +242,84 @@ void display(void)
 	/* (+) Drawing the NPCs 
 	* this will draw the NPC's and make them chase the player
 	*/
+	
+	
+	
 
-	glColor3f(0,0,1); // set colour to blue 
+	/*
+	This for loop makes the NPCs move
+	*/
 	
-	glVertex2i(newActor.getPosition().x ,newActor.getPosition().y); 
+	for(int i = 0; i < actorVector.size(); i++){
+		glColor3f(1/((i+0.03)),0,1); 
+		glVertex2i(actorVector[i].getPosition().x, actorVector[i].getPosition().y);
+		actorVector[i].setSpeed(3);
+		actorVector[i].updateMovement(DAN);
 		
-	newActor.setSpeed(2);
-	newActor.updateMovement(DAN);
-	
-	if((newActor.getPosition().x != nathan.getPositionX()) || (newActor.getPosition().y != nathan.getPositionY()))
-	{
-		newActor.setMoving(true);
-		if(MoveState == 0)
+		if( (abs( (double) actorVector[i].getPosition().x - nathan.getPositionX() ) < detectionRange) && (abs((double) actorVector[i].getPosition().y - nathan.getPositionY()) < detectionRange) )
 		{
-			if (newActor.getPosition().x < nathan.getPositionX())
+			if((actorVector[i].getPosition().x != nathan.getPositionX()) || (actorVector[i].getPosition().y != nathan.getPositionY()))
 			{
-				newActor.changeDirection("right");
-			} 
-			else if (newActor.getPosition().x > nathan.getPositionX())
-			{
-				newActor.changeDirection("left");
+				actorVector[i].setMoving(true);
+				//if(MoveState == 0)
+				if(rand()%100 > ( (rand()%60) + 30))
+				{
+					if (actorVector[i].getPosition().x < nathan.getPositionX())
+					{
+						actorVector[i].changeDirection("right");
+					} 
+					else if (actorVector[i].getPosition().x > nathan.getPositionX())
+					{
+						actorVector[i].changeDirection("left");
+					}
+					//MoveState = 1;
+				}
+				else
+				{
+					if (actorVector[i].getPosition().y < nathan.getPositionY())
+					{
+						actorVector[i].changeDirection("up");
+					} 
+					if (actorVector[i].getPosition().y > nathan.getPositionY())
+					{
+						actorVector[i].changeDirection("down");
+					}
+					//MoveState = 0;
+				}
 			}
-			MoveState = 1;
-		}
-		else
-		{
-			if (newActor.getPosition().y < nathan.getPositionY())
+			else 
 			{
-				newActor.changeDirection("up");
-			} 
-			if (newActor.getPosition().y > nathan.getPositionY())
-			{
-				newActor.changeDirection("down");
+				actorVector[i].setMoving(false);
 			}
-			MoveState = 0;
+		} else {
+			//Scatter algorithm
+			randomNumNPC = rand()%100;
+			// In this situation, the NPCs are out of range. They patrol the area
+			actorVector[i].setMoving(true);
+			frameCounter++;
+			if(frameCounter > 2000){
+				if(randomNumNPC < 25)
+				{
+					actorVector[i].changeDirection("up");
+				}
+				if(25 < randomNumNPC && randomNumNPC < 50)
+				{
+					actorVector[i].changeDirection("left");
+				}
+				if(50 < randomNumNPC && randomNumNPC < 75)
+				{
+					actorVector[i].changeDirection("right");
+				}
+				if(75 < randomNumNPC)
+				{
+					actorVector[i].changeDirection("down");
+				}
+				frameCounter = 0;
+			}
 		}
 	}
-	else 
-	{
-		newActor.setMoving(false);
-	}
-	
+
+
 	/* (-) Drawing the NPCs */
 
 	for(int i = 0; i < DAN.getY(); i++)
@@ -288,6 +333,14 @@ void display(void)
 			glVertex2i(j*64,i*64);
 		}
 	}
+
+
+
+
+
+
+
+
 	glEnd();
 
 	glutPostRedisplay();
@@ -309,9 +362,21 @@ void idle(void)
 
 void main(int argv, char* argc[])
 {
+	
 	resetKeys();
-	tile block;
+	/*(+) NPC stuff 
+	*This will initialize all the actors and push them into actorVector
+	*/
+	int numActors = 6;
+	
+	for (int i = 0; i < numActors; i++){
+		actor actor(i*64+64*9, i*64+64*9, 4, i);
+		actorVector.push_back(actor);
+	}
 
+	//(-) NPC stuff //
+	tile block;
+	
 	object newBlock;
 
 	unsigned int size[] = {5,5};

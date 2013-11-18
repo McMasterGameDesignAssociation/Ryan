@@ -10,6 +10,8 @@ class world;
 
 using namespace std;
 
+
+
 struct ActorVector
 {
 	unsigned int x;
@@ -31,8 +33,9 @@ class actor
 		ActorVector vPosition;
 		double speed;
 		bool isMovingToSpot;
-		//new
-		unsigned int frameCounter;
+		
+
+		unsigned int frameCounter; //the NPC will move after a set number of frames
 
 	public:
 
@@ -47,6 +50,7 @@ class actor
 		void setPosition(unsigned int x, unsigned int y);
 		void setSpeed(double newSpeed);
 		void setMoving(bool isMoving);
+		
 
 		//Accessor
 		int getID(void);

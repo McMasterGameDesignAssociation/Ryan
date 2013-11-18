@@ -196,7 +196,7 @@ class world
 		actor getCharacter(unsigned int ID);
 		vector<tile> getTileSet(void);
 		vector<object> getObjectSet(void);
-		vector<actor> getActorSet(void);
+		vector<actor> getActorSet(void);//
 
 		bool getTileCollision(unsigned int ID);
 		bool getObjectCollision(unsigned int ID);

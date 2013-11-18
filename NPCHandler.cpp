@@ -2,6 +2,9 @@
 #include "WORLD.h"
 #include "NPCHandler.h"
 
+
+
+
 actor::actor(unsigned int x, unsigned int y, double speed, int newID)
 {
 	this->vPosition.x = x;
@@ -13,6 +16,8 @@ actor::actor(unsigned int x, unsigned int y, double speed, int newID)
 	this->description = "This is an empty character";
 	this->frameCounter = 0;
 }
+
+
 
 bool actor::getMoving()
 {
@@ -113,7 +118,7 @@ void actor::updateMovement(world map)
 	if (this->getMoving() == true)
 	{
 		if(frameCounter > 10){
-			cout << this->face;
+			//cout << this->face;
 			if (face == up){
 				//vPosition.y += speed;
 				checkMovement(map, 0, 1);

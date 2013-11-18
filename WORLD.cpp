@@ -180,7 +180,6 @@ void player::increaseFame(unsigned int increaseFameAmount) {fame += increaseFame
 void player::decreaseFame(unsigned int decreaseFameAmount) {fame -= decreaseFameAmount;}
 void player::updateFame(unsigned int newFame) {fame = newFame;}
 
-//double player::getSpeed(void){return speed;}
 void player::increaseSpeed(double increaseSpeedAmount) {speed += increaseSpeedAmount;}
 void player::decreaseSpeed(double decreaseSpeedAmount) {speed -= decreaseSpeedAmount;}
 void player::updateSpeed(double newSpeed) {speed = newSpeed;}
@@ -267,8 +266,9 @@ world::world(unsigned int size[2])
 	object objectBlock;
 	addObject(objectBlock);
 
-	actor character;
-	addActor(character);
+	 
+	//actor character;
+	//addActor(character);
 	unsigned int temp[2];
 	
 	for(int i = 0; i < dimensions[0]; i++)
@@ -290,7 +290,7 @@ object world::getObject(unsigned int ID) {return objectSet.at(ID);}
 actor world::getCharacter(unsigned int ID) {return actorSet.at(ID);}
 vector<tile> world::getTileSet(void) {return tileSet;}
 vector<object> world::getObjectSet(void) {return objectSet;}
-vector<actor> world::getActorSet(void) {return actorSet;}
+vector<actor> world::getActorSet(void) {return actorSet;}//
 bool world::getTileCollision(unsigned int ID) {return tileSet.at(ID).getPassThrough();}
 bool world::getObjectCollision(unsigned int ID) {return objectSet.at(ID).getPassThrough();}
 
