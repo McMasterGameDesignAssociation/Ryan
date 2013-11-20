@@ -37,6 +37,7 @@ class actor
 		unsigned int alert;
 		double maxVision;
 		bool playerWithinRange;
+		bool isHittingWall;
 
 		unsigned int frameCounter; //the NPC will move after a set number of frames
 
@@ -57,10 +58,11 @@ class actor
 		void increaseAlert(void);
 		void decreaseAlert(void);
 		void setSeesPlayer(bool);
+		void setIsHittingWall(bool);
 
 		//Accessor
 		int getID(void);
-		direction getFace(void);
+		string getFace(void);
 		string getBitMapName(void);
 		string getDescription(void);
 		double getSpeed();
@@ -70,6 +72,7 @@ class actor
 		double getVisionRange(void);
 		int getAlert(void);
 		bool getSeesPlayer(void);
+		bool getIsHittingWall(void);
 
 		//Logging function
 		void printLog(void);

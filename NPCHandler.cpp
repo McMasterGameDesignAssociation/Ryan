@@ -19,6 +19,7 @@ actor::actor(unsigned int x, unsigned int y, double speed, int newID)
 	this->alert = 0;
 	this->playerWithinRange;
 	this->maxVision = visionRange + 4*64;
+	this->isHittingWall;
 }
 
 
@@ -75,17 +76,33 @@ void actor::changeDirection(string newFace)
 	}
 }
 
+string actor::getFace(void)
+{
+	if(this->face == up){
+		return "up";
+	}
+	if(this->face == down){
+		return "down";
+	}
+	if(this->face == left){
+		return "left";
+	}
+	if(this->face == right){
+		return "right";
+	}
+}
+
 void actor::increaseAlert(void)
 {
 	this->alert++;
 	this->visionRange = maxVision;
-	this->speed = 5;
+	this->speed = 4;
 }
 void actor::decreaseAlert(void)
 {
 	this->alert--;
 	this->visionRange=5*64;
-	this->speed = 3;
+	this->speed = 2;
 }
 
 int actor::getAlert(void)
@@ -152,8 +169,9 @@ void actor::checkMovement(world map, int x, int y)
 	{
 		posOne[0] = x + getPosition().x, posOne[1] = y + getPosition().y;
 		setPosition(posOne[0], posOne[1]);
+		setIsHittingWall(false);
 	}else{
-		cout << "hit wall";
+		setIsHittingWall(true);
 	}
 }
 
@@ -184,6 +202,16 @@ void actor::updateMovement(world map)
 		}
 		frameCounter ++;
 	}
+}
+
+bool actor::getIsHittingWall(void)
+{
+	return this->isHittingWall;
+}
+
+void actor::setIsHittingWall(bool hitWall)
+{
+	this->isHittingWall = hitWall;
 }
 
 

@@ -313,7 +313,7 @@ void display(void)
 			}
 		}
 		
-
+		actorVector[i].setMoving(true);
 		//if( (abs( (double) actorVector[i].getPosition().x - nathan.getPositionX() ) < detectionRange) && (abs((double) actorVector[i].getPosition().y - nathan.getPositionY()) < detectionRange  && actorVector[i].getAlert() > 0))
 		if( (abs( (double) actorVector[i].getPosition().x - nathan.getPositionX() ) < actorVector[i].getVisionRange()) && (abs((double) actorVector[i].getPosition().y - nathan.getPositionY()) < actorVector[i].getVisionRange()  && actorVector[i].getAlert() > 0))
 		{ //if actor can see vector
@@ -343,11 +343,26 @@ void display(void)
 						actorVector[i].changeDirection("down");
 					}
 				}
+
+				if(actorVector[i].getIsHittingWall() == true){
+					if(actorVector[i].getFace() == "up"){
+						actorVector[i].changeDirection("right");
+					}
+					else if(actorVector[i].getFace() == "right"){
+						actorVector[i].changeDirection("down");
+					}
+					else if(actorVector[i].getFace() == "down"){
+						actorVector[i].changeDirection("left");
+					}
+					else if(actorVector[i].getFace() == "left"){
+						actorVector[i].changeDirection("up");
+					}
+				}
 			}
-			else 
+			/*else 
 			{
 				actorVector[i].setMoving(false);
-			}
+			}*/
 		
 		} 
 
@@ -405,7 +420,7 @@ void main(int argv, char* argc[])
 	int numActors = 10;
 	
 	for (int i = 0; i < numActors; i++){
-		actor actor(i*64+64*9, i*64+64*9, 3, i);
+		actor actor(i*64+64*9, i*64+64*9, 2, i);
 		actorVector.push_back(actor);
 	}
 
