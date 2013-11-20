@@ -18,7 +18,25 @@
 6 - Run/Walk/Shift
 7 - MainMenu/ESC
 
+
 ***/
+
+unsigned int initSize[2] = {1,1};
+world DAN(initSize);
+player nathan(DAN);
+
+/*
+(+) NPC varibles
+*/
+vector <actor> actorVector;
+int detectionRange = 64 * 5;
+int frameCounter = 0;
+int randomNumNPC;
+
+bool increasingAlert = false;
+//(-) NPC variables
+
+
 bool keys[8];
 int MoveState = 0;
 /*
@@ -44,12 +62,14 @@ void keyRelease(unsigned char keyStroke, int x, int y)
 
 	case 'd': keys[3] = false;
 		break;
+	case '3': increasingAlert = false;break;
 
 	case 'e': 
 	case 'q': 
 	default: resetKeys();
 		break;
 	}	
+	
 }
 
 /*
@@ -84,6 +104,10 @@ void keyboardInput(unsigned char keyStroke, int x, int y)
 	case 'q': resetKeys();
 		keys[5] = true;
 		break;
+
+	case '1': cout << actorVector[0].getAlert() << endl;break;
+	case '2': actorVector[0].increaseAlert();actorVector[1].increaseAlert();actorVector[2].increaseAlert();actorVector[3].increaseAlert();actorVector[4].increaseAlert();actorVector[5].increaseAlert();actorVector[6].increaseAlert();actorVector[7].increaseAlert();break;
+	case '3': increasingAlert = true;
 
 	default: break;
 	}
@@ -178,19 +202,7 @@ double HEIGHT = 600;
 
 int viewPortCenter[2] = {0,0};
 
-unsigned int initSize[2] = {1,1};
-world DAN(initSize);
-player nathan(DAN);
 
-
-/*
-(+) NPC varibles
-*/
-vector <actor> actorVector;
-int detectionRange = 64 * 8;
-int frameCounter = 0;
-int randomNumNPC;
-//(-) NPC variables
 
 
 
@@ -251,53 +263,36 @@ void display(void)
 	*/
 	
 	for(int i = 0; i < actorVector.size(); i++){
-		glColor3f(1/((i+0.03)),0,1); 
-		glVertex2i(actorVector[i].getPosition().x, actorVector[i].getPosition().y);
-		actorVector[i].setSpeed(3);
-		actorVector[i].updateMovement(DAN);
+		//glColor3f(1/((i+0.03)),0,1); 
+		glColor3f(actorVector[i].getAlert(),0.3,0.7);
 		
-		if( (abs( (double) actorVector[i].getPosition().x - nathan.getPositionX() ) < detectionRange) && (abs((double) actorVector[i].getPosition().y - nathan.getPositionY()) < detectionRange) )
+		glVertex2i(actorVector[i].getPosition().x, actorVector[i].getPosition().y);
+		//actorVector[i].setSpeed(3);
+		actorVector[i].updateMovement(DAN);
+		// this needs to be added somewhere -> && actorVector[i].getAlert() > 0
+
+		//if( (abs( (double) actorVector[i].getPosition().x - nathan.getPositionX() ) < detectionRange) && (abs((double) actorVector[i].getPosition().y - nathan.getPositionY()) < detectionRange))
+		if( (abs( (double) actorVector[i].getPosition().x - nathan.getPositionX() ) < actorVector[i].getVisionRange()) && (abs((double) actorVector[i].getPosition().y - nathan.getPositionY()) < actorVector[i].getVisionRange()))
 		{
-			if((actorVector[i].getPosition().x != nathan.getPositionX()) || (actorVector[i].getPosition().y != nathan.getPositionY()))
-			{
-				actorVector[i].setMoving(true);
-				//if(MoveState == 0)
-				if(rand()%100 > ( (rand()%60) + 30))
-				{
-					if (actorVector[i].getPosition().x < nathan.getPositionX())
-					{
-						actorVector[i].changeDirection("right");
-					} 
-					else if (actorVector[i].getPosition().x > nathan.getPositionX())
-					{
-						actorVector[i].changeDirection("left");
-					}
-					//MoveState = 1;
-				}
-				else
-				{
-					if (actorVector[i].getPosition().y < nathan.getPositionY())
-					{
-						actorVector[i].changeDirection("up");
-					} 
-					if (actorVector[i].getPosition().y > nathan.getPositionY())
-					{
-						actorVector[i].changeDirection("down");
-					}
-					//MoveState = 0;
-				}
-			}
-			else 
-			{
-				actorVector[i].setMoving(false);
+			if(increasingAlert == true){
+
+				actorVector[i].increaseAlert();
+				//increasingAlert = false;
 			}
 		} else {
+			if (actorVector[i].getAlert() > 0){
+				actorVector[i].decreaseAlert();
+			}
+		}
+
+		actorVector[i].setMoving(true);
+		if(actorVector[i].getAlert() == 0) {
 			//Scatter algorithm
 			randomNumNPC = rand()%100;
 			// In this situation, the NPCs are out of range. They patrol the area
-			actorVector[i].setMoving(true);
+			
 			frameCounter++;
-			if(frameCounter > 2000){
+			if(frameCounter > 1000){
 				if(randomNumNPC < 25)
 				{
 					actorVector[i].changeDirection("up");
@@ -317,6 +312,45 @@ void display(void)
 				frameCounter = 0;
 			}
 		}
+		
+
+		//if( (abs( (double) actorVector[i].getPosition().x - nathan.getPositionX() ) < detectionRange) && (abs((double) actorVector[i].getPosition().y - nathan.getPositionY()) < detectionRange  && actorVector[i].getAlert() > 0))
+		if( (abs( (double) actorVector[i].getPosition().x - nathan.getPositionX() ) < actorVector[i].getVisionRange()) && (abs((double) actorVector[i].getPosition().y - nathan.getPositionY()) < actorVector[i].getVisionRange()  && actorVector[i].getAlert() > 0))
+		{ //if actor can see vector
+			actorVector[i].setMoving(true);
+			if(abs( (double) nathan.getPositionX() - actorVector[i].getPosition().x) > 32 || abs( (double) nathan.getPositionY() - actorVector[i].getPosition().y) > 32)
+			{ //if the actor is greater than 32 pixels away from the player (if it isn't, there is no need to move)
+				if( abs( (double) nathan.getPositionX() - actorVector[i].getPosition().x) > abs( (double) nathan.getPositionY() - actorVector[i].getPosition().y))
+				{ //if the x is further away than the y then move x. otherwise move left.
+					if (actorVector[i].getPosition().x < nathan.getPositionX() + 32 )
+					{
+						actorVector[i].changeDirection("right");
+					} 
+					else if (actorVector[i].getPosition().x > nathan.getPositionX() - 32)
+					{
+						actorVector[i].changeDirection("left");
+					} 
+				
+				}
+				else
+				{
+					if (actorVector[i].getPosition().y < nathan.getPositionY() + 32)
+					{
+						actorVector[i].changeDirection("up");
+					} 
+					else if (actorVector[i].getPosition().y > nathan.getPositionY() - 32)
+					{
+						actorVector[i].changeDirection("down");
+					}
+				}
+			}
+			else 
+			{
+				actorVector[i].setMoving(false);
+			}
+		
+		} 
+
 	}
 
 
@@ -334,7 +368,7 @@ void display(void)
 		}
 	}
 
-
+	//nathan.updateSuspicion(0);
 
 
 
@@ -356,7 +390,7 @@ void reshape(int x, int y)
 
 void idle(void)
 {
-	nathan.setSpeed(8);
+	nathan.setSpeed(2);
 	nathan = menuStates(nathan, DAN);
 }
 
@@ -367,10 +401,11 @@ void main(int argv, char* argc[])
 	/*(+) NPC stuff 
 	*This will initialize all the actors and push them into actorVector
 	*/
-	int numActors = 6;
+
+	int numActors = 10;
 	
 	for (int i = 0; i < numActors; i++){
-		actor actor(i*64+64*9, i*64+64*9, 4, i);
+		actor actor(i*64+64*9, i*64+64*9, 3, i);
 		actorVector.push_back(actor);
 	}
 

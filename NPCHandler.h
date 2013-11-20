@@ -31,9 +31,12 @@ class actor
 		string bitMapName;
 		string description;
 		ActorVector vPosition;
-		double speed;
+		int speed;
 		bool isMovingToSpot;
-		
+		double visionRange; //after being spotted the NPC vision increases
+		unsigned int alert;
+		double maxVision;
+		bool playerWithinRange;
 
 		unsigned int frameCounter; //the NPC will move after a set number of frames
 
@@ -50,7 +53,10 @@ class actor
 		void setPosition(unsigned int x, unsigned int y);
 		void setSpeed(double newSpeed);
 		void setMoving(bool isMoving);
-		
+		void setVisionRange(void);
+		void increaseAlert(void);
+		void decreaseAlert(void);
+		void setSeesPlayer(bool);
 
 		//Accessor
 		int getID(void);
@@ -61,6 +67,9 @@ class actor
 		ActorVector getPosition();
 		bool getMoving();
 		void checkMovement(world map, int x, int y);
+		double getVisionRange(void);
+		int getAlert(void);
+		bool getSeesPlayer(void);
 
 		//Logging function
 		void printLog(void);

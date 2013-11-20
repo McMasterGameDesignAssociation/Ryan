@@ -15,6 +15,10 @@ actor::actor(unsigned int x, unsigned int y, double speed, int newID)
 	this->bitMapName = "None";
 	this->description = "This is an empty character";
 	this->frameCounter = 0;
+	this->visionRange = 5*64;
+	this->alert = 0;
+	this->playerWithinRange;
+	this->maxVision = visionRange + 4*64;
 }
 
 
@@ -71,9 +75,48 @@ void actor::changeDirection(string newFace)
 	}
 }
 
+void actor::increaseAlert(void)
+{
+	this->alert++;
+	this->visionRange = maxVision;
+	this->speed = 5;
+}
+void actor::decreaseAlert(void)
+{
+	this->alert--;
+	this->visionRange=5*64;
+	this->speed = 3;
+}
+
+int actor::getAlert(void)
+{
+	return this->alert;
+}
+
+void actor::setSeesPlayer(bool canSeePlayer)
+{
+	this->playerWithinRange = canSeePlayer;
+}
+
+bool actor::getSeesPlayer(void)
+{
+	return this->playerWithinRange;
+}
+
+
+void actor::setVisionRange(void){
+	
+}
+
+double actor::getVisionRange(void)
+{
+	return this->visionRange;
+}
+
 /* checkMovement
 * this function checks to make sure there is no block preventing movement
 * same as the function for the player 
+* made by ben
 */
 
 void actor::checkMovement(world map, int x, int y)
@@ -83,7 +126,6 @@ void actor::checkMovement(world map, int x, int y)
 	unsigned int posThree[2];
 	unsigned int posFour[2];
 	int speed  = getSpeed();
-
 	x = (x >= 1) ? speed : x;
 	x = (x <= -1) ? -speed : x;
 	y = (y >= 1) ? speed : y;
@@ -110,6 +152,8 @@ void actor::checkMovement(world map, int x, int y)
 	{
 		posOne[0] = x + getPosition().x, posOne[1] = y + getPosition().y;
 		setPosition(posOne[0], posOne[1]);
+	}else{
+		cout << "hit wall";
 	}
 }
 
@@ -117,7 +161,7 @@ void actor::updateMovement(world map)
 {
 	if (this->getMoving() == true)
 	{
-		if(frameCounter > 10){
+		if(frameCounter > 10-speed){
 			//cout << this->face;
 			if (face == up){
 				//vPosition.y += speed;
