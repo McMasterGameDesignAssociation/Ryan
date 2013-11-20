@@ -32,7 +32,7 @@ vector <actor> actorVector;
 int detectionRange = 64 * 5;
 int frameCounter = 0;
 int randomNumNPC;
-
+int frameStop = 1000; //NPCs will update their direction in less frames if they hit a wall
 bool increasingAlert = false;
 //(-) NPC variables
 
@@ -291,8 +291,15 @@ void display(void)
 			randomNumNPC = rand()%100;
 			// In this situation, the NPCs are out of range. They patrol the area
 			
+			if(actorVector[i].getIsHittingWall() == false){
+				frameStop = 1000;
+			} else {
+				frameStop = 200;
+			}
+
 			frameCounter++;
-			if(frameCounter > 1000){
+			
+			if(frameCounter > frameStop){
 				if(randomNumNPC < 25)
 				{
 					actorVector[i].changeDirection("up");
@@ -309,6 +316,7 @@ void display(void)
 				{
 					actorVector[i].changeDirection("down");
 				}
+				
 				frameCounter = 0;
 			}
 		}
@@ -320,7 +328,7 @@ void display(void)
 			actorVector[i].setMoving(true);
 			if(abs( (double) nathan.getPositionX() - actorVector[i].getPosition().x) > 32 || abs( (double) nathan.getPositionY() - actorVector[i].getPosition().y) > 32)
 			{ //if the actor is greater than 32 pixels away from the player (if it isn't, there is no need to move)
-				if( abs( (double) nathan.getPositionX() - actorVector[i].getPosition().x) > abs( (double) nathan.getPositionY() - actorVector[i].getPosition().y))
+				if( (abs( (double) nathan.getPositionX() - actorVector[i].getPosition().x) > abs( (double) nathan.getPositionY() - actorVector[i].getPosition().y)))
 				{ //if the x is further away than the y then move x. otherwise move left.
 					if (actorVector[i].getPosition().x < nathan.getPositionX() + 32 )
 					{
@@ -359,10 +367,10 @@ void display(void)
 					}
 				}
 			}
-			/*else 
+			else 
 			{
 				actorVector[i].setMoving(false);
-			}*/
+			}
 		
 		} 
 
@@ -386,7 +394,7 @@ void display(void)
 	//nathan.updateSuspicion(0);
 
 
-
+	
 
 
 
@@ -417,7 +425,7 @@ void main(int argv, char* argc[])
 	*This will initialize all the actors and push them into actorVector
 	*/
 
-	int numActors = 10;
+	int numActors = 15;
 	
 	for (int i = 0; i < numActors; i++){
 		actor actor(i*64+64*9, i*64+64*9, 2, i);

@@ -146,7 +146,7 @@ void actor::changeID(unsigned int newID) {ID = newID;}
 void actor::changeBitMapName(string newbitMapName) {bitMapName = newbitMapName;}
 string actor::getDescription(void) {return description;}
 int actor::getID(void) {return ID;}
-actor::direction actor::getFace(void) {return face;}
+//actor::direction actor::getFace(void) {return face;}
 string actor::getBitMapName(void) {return bitMapName;}
 
 player::player(world map)

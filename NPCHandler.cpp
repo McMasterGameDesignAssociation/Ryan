@@ -94,13 +94,13 @@ string actor::getFace(void)
 
 void actor::increaseAlert(void)
 {
-	this->alert++;
+	this->alert=1;
 	this->visionRange = maxVision;
 	this->speed = 4;
 }
 void actor::decreaseAlert(void)
 {
-	this->alert--;
+	this->alert=0;
 	this->visionRange=5*64;
 	this->speed = 2;
 }
