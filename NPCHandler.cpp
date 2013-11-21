@@ -7,8 +7,8 @@
 
 actor::actor(unsigned int x, unsigned int y, double speed, int newID)
 {
-	this->vPosition.x = x;
-	this->vPosition.y = y;
+	this->vPosition.x = x;this->initialXPos = x;
+	this->vPosition.y = y;this->initialYPos = y;
 	this->speed = speed;
 	this->ID = newID;
 	//this->face = up;
@@ -22,7 +22,14 @@ actor::actor(unsigned int x, unsigned int y, double speed, int newID)
 	this->isHittingWall;
 }
 
-
+int actor::getFrameCount()
+{
+	return this->frameCounter;
+}
+void actor::setFrameCount(int newFrameCount)
+{
+	this->frameCounter = newFrameCount;
+}
 
 bool actor::getMoving()
 {
@@ -128,6 +135,16 @@ void actor::setVisionRange(void){
 double actor::getVisionRange(void)
 {
 	return this->visionRange;
+}
+
+int actor::getInitialXPos(void)
+{
+	return this->initialXPos;
+}
+
+int actor::getInitialYPos(void)
+{
+	return this->initialYPos;
 }
 
 /* checkMovement

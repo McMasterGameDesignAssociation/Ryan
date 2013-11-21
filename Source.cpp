@@ -269,15 +269,35 @@ void display(void)
 		glVertex2i(actorVector[i].getPosition().x, actorVector[i].getPosition().y);
 		//actorVector[i].setSpeed(3);
 		actorVector[i].updateMovement(DAN);
-		// this needs to be added somewhere -> && actorVector[i].getAlert() > 0
 
+		//actorVector[i].setFrameCount(actorVector[i].getFrameCount() + 1);
+		//if(actorVector[i].getFrameCount() < 10000){
+			
 		//if( (abs( (double) actorVector[i].getPosition().x - nathan.getPositionX() ) < detectionRange) && (abs((double) actorVector[i].getPosition().y - nathan.getPositionY()) < detectionRange))
 		if( (abs( (double) actorVector[i].getPosition().x - nathan.getPositionX() ) < actorVector[i].getVisionRange()) && (abs((double) actorVector[i].getPosition().y - nathan.getPositionY()) < actorVector[i].getVisionRange()))
 		{
-			if(increasingAlert == true){
-
+			if(increasingAlert == true)
+			{//only increase alert if they are facing in a direction where they should be able to see the player
+				if(actorVector[i].getFace() == "up" && nathan.getPositionY() > actorVector[i].getPosition().y)
+				{
 				actorVector[i].increaseAlert();
 				//increasingAlert = false;
+				}
+				if(actorVector[i].getFace() == "right" && nathan.getPositionX() > actorVector[i].getPosition().x)
+				{
+				actorVector[i].increaseAlert();
+				//increasingAlert = false;
+				}
+				if(actorVector[i].getFace() == "down" && nathan.getPositionY() < actorVector[i].getPosition().y)
+				{
+				actorVector[i].increaseAlert();
+				//increasingAlert = false;
+				}
+				if(actorVector[i].getFace() == "left" && nathan.getPositionX() < actorVector[i].getPosition().x)
+				{
+				actorVector[i].increaseAlert();
+				//increasingAlert = false;
+				}
 			}
 		} else {
 			if (actorVector[i].getAlert() > 0){
@@ -371,10 +391,18 @@ void display(void)
 			{
 				actorVector[i].setMoving(false);
 			}
-		
-		} 
+			
 
-	}
+		} // end actor can see player
+		/*cout << actorVector[i].getFrameCount() << endl << endl;
+		actorVector[i].setFrameCount(actorVector[i].getFrameCount() + 100);
+		if(actorVector[i].getFrameCount() > 9000){
+			cout << "bang";
+			actorVector[i].setFrameCount(0);
+		}*/
+		
+
+	}//end for loop
 
 
 	/* (-) Drawing the NPCs */
