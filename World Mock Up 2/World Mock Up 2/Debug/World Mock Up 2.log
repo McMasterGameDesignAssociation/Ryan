@@ -1,0 +1,36 @@
+﻿Build started 2014-03-23 9:53:26 AM.
+     1>Project "C:\Users\Ryan\Documents\Visual Studio 2012\Projects\World Mock Up 2\World Mock Up 2\World Mock Up 2.vcxproj" on node 2 (Build target(s)).
+     1>InitializeBuildStatus:
+         Touching "Debug\World Mock Up 2.unsuccessfulbuild".
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt NPCHandler.cpp
+         NPCHandler.cpp
+     1>c:\users\ryan\documents\visual studio 2012\projects\world mock up 2\world mock up 2\npchandler.cpp(4): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+     1>c:\users\ryan\documents\visual studio 2012\projects\world mock up 2\world mock up 2\npchandler.cpp(5): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+     1>c:\users\ryan\documents\visual studio 2012\projects\world mock up 2\world mock up 2\astar.h(523): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ryan\documents\visual studio 2012\projects\world mock up 2\world mock up 2\astar.h(547): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Ryan\Documents\Visual Studio 2012\Projects\World Mock Up 2\Debug\World Mock Up 2.exe" /INCREMENTAL /NOLOGO libpng16.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Ryan\Documents\Visual Studio 2012\Projects\World Mock Up 2\Debug\World Mock Up 2.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Ryan\Documents\Visual Studio 2012\Projects\World Mock Up 2\Debug\World Mock Up 2.lib" /MACHINE:X86 Debug\DTDMacros.obj
+         Debug\ENTITIES.obj
+         Debug\FILEREADER.obj
+         Debug\GAMEPIECES.obj
+         Debug\IMAGE.obj
+         Debug\ITEM.obj
+         Debug\NPCHandler.obj
+         Debug\OBJECT.obj
+         Debug\PLAYER.obj
+         Debug\RENDERER.obj
+         Debug\Source.obj
+         Debug\SPRITE.obj
+         Debug\TILE.obj
+         Debug\TIMER.obj
+         Debug\WORLD.obj
+         World Mock Up 2.vcxproj -> C:\Users\Ryan\Documents\Visual Studio 2012\Projects\World Mock Up 2\Debug\World Mock Up 2.exe
+       FinalizeBuildStatus:
+         Deleting file "Debug\World Mock Up 2.unsuccessfulbuild".
+         Touching "Debug\World Mock Up 2.lastbuildstate".
+     1>Done Building Project "C:\Users\Ryan\Documents\Visual Studio 2012\Projects\World Mock Up 2\World Mock Up 2\World Mock Up 2.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:04.51
